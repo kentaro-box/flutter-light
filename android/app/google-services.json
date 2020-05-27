@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "413217640465",
+    "firebase_url": "https://light-84b6d.firebaseio.com",
+    "project_id": "light-84b6d",
+    "storage_bucket": "light-84b6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413217640465:android:7d032c67fa18a7bfa061b0",
+        "android_client_info": {
+          "package_name": "live.mimosa.sermon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "413217640465-lhe4kaikemfpqd30dr9nu23ujfpt2url.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq8gPGSj-AyT7femhw_Kojmetv5g7eoJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "413217640465-lhe4kaikemfpqd30dr9nu23ujfpt2url.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "413217640465-k85bq9fh9so4drc1lj4jg72sjp3fhmlr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "live.mimosa.sermon"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
