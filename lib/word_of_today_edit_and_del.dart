@@ -5,9 +5,9 @@ import 'package:flutter_bbs/home_screen.dart';
 import 'word_of_today.dart';
 
 class WordOfTodayEditAndDel extends StatelessWidget {
-  final void Function() onDeleted;
+  // final void Function() onDeleted;
   String wordId;
-  WordOfTodayEditAndDel({this.wordId, @required this.onDeleted});
+  WordOfTodayEditAndDel({this.wordId});
   final _formKey = GlobalKey<FormState>();
   TextEditingController _updataBodyTextEditingController;
 

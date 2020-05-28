@@ -49,15 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     colors: <Color>[Colors.lightBlue[300], Colors.cyan[100]])),
           ),
           actions: <Widget>[
-            FlatButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => SplashScreen()),
-                    (Route<dynamic> route) => false);
-              },
-              child: Text('ログアウト'),
-            ),
+            //   FlatButton(
+            //     onPressed: () async {
+            //       await FirebaseAuth.instance.signOut();
+            //       Navigator.of(context).pushAndRemoveUntil(
+            //           MaterialPageRoute(builder: (context) => SplashScreen()),
+            //           (Route<dynamic> route) => false);
+            //     },
+            //     child: Text('ログアウト'),
+            //   ),
             // TODO アドバイザーは非表示
             IconButton(
               icon: const Icon(
