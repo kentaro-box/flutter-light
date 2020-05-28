@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bbs/home_screen.dart';
+import 'package:flutter_bbs/register_name_screen.dart';
 import 'package:flutter_bbs/word_of_today.dart';
 
 import 'menu.dart';
@@ -81,5 +84,47 @@ class _BottomNavigationState extends State<BottomNavigation> {
             }),
       ),
     );
+  }
+}
+
+class BottomSplashScreen extends StatefulWidget {
+  @override
+  _BottomSplashScreenState createState() => _BottomSplashScreenState();
+}
+
+class _BottomSplashScreenState extends State<BottomSplashScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    checkName();
+    super.didChangeDependencies();
+  }
+
+  Future<void> checkName() async {
+    final user = await FirebaseAuth.instance.currentUser();
+
+    final userDoc =
+        await Firestore.instance.collection('users').document(user.uid).get();
+    final userName = await userDoc.data['userName'] == null
+        ? null
+        : userDoc.data['userName'];
+
+    if (userName == null) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => RegisterNameScreen()),
+      );
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => BottomNavigation()),
+      );
+    }
   }
 }
