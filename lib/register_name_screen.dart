@@ -38,51 +38,61 @@ class _RegisterNameScreenState extends State<RegisterNameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          children: <Widget>[
-            Text('usernameを登録してください。'),
-            TextFormField(
-              validator: (value) =>
-                  value.isEmpty ? 'Name can\'t be empty' : null,
-              onSaved: (value) => name = value,
-              controller: _textEditingController,
-              decoration: InputDecoration(
-                fillColor: Colors.grey,
-                labelText: 'Please enter your email',
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.lightBlue[200],
-                    width: 1.0,
-                  ),
-                ),
+        child: Container(
+          padding: EdgeInsets.fromLTRB(16.0, 120.0, 16.0, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text('usernameを登録してください。')),
               ),
-            ),
-            Container(
-              height: 40,
-              margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-              child: RaisedButton(
-                color: Colors.lightBlueAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
-                  ),
-                ),
-                onPressed: () async {
-                  final uid = await getCurrentUserId();
-                  final getUserDoc =
-                      Firestore.instance.collection('users').document(uid);
-                  getUserDoc.setData({'userName': _textEditingController.text},
-                      merge: true);
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => BottomNavigation(),
+              TextFormField(
+                validator: (value) =>
+                    value.isEmpty ? 'Name can\'t be empty' : null,
+                onSaved: (value) => name = value,
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  fillColor: Colors.grey,
+                  labelText: 'Please enter your email',
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.lightBlue[200],
+                      width: 1.0,
                     ),
-                  );
-                },
-                child: Text('登録'),
+                  ),
+                ),
               ),
-            ),
-          ],
+              Container(
+                height: 40,
+                margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+                child: RaisedButton(
+                  color: Colors.lightBlueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
+                  ),
+                  onPressed: () async {
+                    final uid = await getCurrentUserId();
+                    final getUserDoc =
+                        Firestore.instance.collection('users').document(uid);
+                    getUserDoc.setData(
+                        {'userName': _textEditingController.text},
+                        merge: true);
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => BottomNavigation(),
+                      ),
+                    );
+                  },
+                  child: Text('登録'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
