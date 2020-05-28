@@ -15,6 +15,7 @@ class AnonymousAuthorization {
       final usersSnapshot = await _userCollectionRef.document(userId).get();
       if (!usersSnapshot.exists) {
         _userCollectionRef.document(userId).setData({
+          'userName': null,
           'userId': user.uid,
           'createdAt': new DateTime.now(),
           'category': 'consulter',

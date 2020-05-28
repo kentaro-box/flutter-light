@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class RegisterName extends StatefulWidget {
+import 'bottom_navigation.dart';
+
+class RegisterNameScreen extends StatefulWidget {
   @override
-  _RegisterNameState createState() => _RegisterNameState();
+  _RegisterNameScreenState createState() => _RegisterNameScreenState();
 }
 
-class _RegisterNameState extends State<RegisterName> {
+class _RegisterNameScreenState extends State<RegisterNameScreen> {
   TextEditingController _textEditingController = TextEditingController();
 
   Future<String> getCurrentUserId() async {
@@ -17,16 +19,18 @@ class _RegisterNameState extends State<RegisterName> {
     return userId;
   }
 
-  validateAndSubmitName(name) async {
-    final uid = await getCurrentUserId();
+  // getUserDoc() async {
+  //   final uid = await getCurrentUserId();
+  //   final getUserDoc = Firestore.instance.collection('users').document(uid);
 
-    final getUserDoc =
-        await Firestore.instance.collection('users').document(uid);
+  //   return getUserDoc;
+  // }
 
-    getUserDoc.setData({
-      'userName': name,
-    });
-  }
+  // validateAndSubmitName(name) {
+  //   getUserDoc.setData({
+  //     'userName': name,
+  //   });
+  // }
 
   String name;
 
@@ -63,7 +67,18 @@ class _RegisterNameState extends State<RegisterName> {
                     Radius.circular(8.0),
                   ),
                 ),
-                onPressed: validateAndSubmitName(name),
+                onPressed: () async {
+                  final uid = await getCurrentUserId();
+                  final getUserDoc =
+                      Firestore.instance.collection('users').document(uid);
+                  getUserDoc.setData({'userName': _textEditingController.text},
+                      merge: true);
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => BottomNavigation(),
+                    ),
+                  );
+                },
                 child: Text('登録'),
               ),
             ),

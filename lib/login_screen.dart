@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   await _anonymousAuthorization.signInAnonymously();
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => BottomNavigation(),
+                      builder: (context) => BottomSplashScreen(),
                     ),
                   );
                 },
