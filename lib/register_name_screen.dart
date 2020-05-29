@@ -46,8 +46,7 @@ class _RegisterNameScreenState extends State<RegisterNameScreen> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('usernameを登録してください。')),
+                    alignment: Alignment.topLeft, child: Text('名前を登録してください。')),
               ),
               TextFormField(
                 validator: (value) =>
@@ -56,7 +55,7 @@ class _RegisterNameScreenState extends State<RegisterNameScreen> {
                 controller: _textEditingController,
                 decoration: InputDecoration(
                   fillColor: Colors.grey,
-                  labelText: 'Please enter your email',
+                  labelText: '匿名でもなんでもOKです！！',
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.lightBlue[200],

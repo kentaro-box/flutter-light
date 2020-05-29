@@ -77,6 +77,8 @@ class PostWordOfToday extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                     child: TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
                       controller: _textEditingController,
                       onChanged: (String title) {
                         title = _textEditingController.text;

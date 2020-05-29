@@ -41,151 +41,155 @@ class EditAndDelete extends StatelessWidget {
                   colors: <Color>[Colors.lightBlue[300], Colors.cyan[100]])),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: FutureBuilder(
-            future: getPost(postId),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Container(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        TextFormField(
-                          controller: _updataTitleTextEditingController =
-                              TextEditingController(
-                                  text: snapshot.data['title']),
-                          keyboardType: TextInputType.text,
-                          // initialValue: null,
-                          decoration: InputDecoration(
-                              // hintText: snapshot.data['title'],
-                              ),
-                          validator: (updataTitleValue) {
-                            if (updataTitleValue.isEmpty) {
-                              return 'Please enter title';
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          controller: _updataBodyTextEditingController =
-                              TextEditingController(
-                                  text: snapshot.data['body']),
-                          keyboardType: TextInputType.text,
-                          // initialValue: null,
-                          decoration: InputDecoration(
-                              // hintText: snapshot.data['body'],
-                              ),
-                          validator: (updataBodyValue) {
-                            if (updataBodyValue.isEmpty) {
-                              return 'Please enter body';
-                            }
-                            return null;
-                          },
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16.0),
-                                child: RaisedButton(
-                                  onPressed: () {
-                                    var data = {
-                                      'title': _updataTitleTextEditingController
-                                          .text,
-                                      'body':
-                                          _updataBodyTextEditingController.text
-                                    };
-                                    updatePost(data);
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: FutureBuilder(
+              future: getPost(postId),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Container(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          TextFormField(
+                            controller: _updataTitleTextEditingController =
+                                TextEditingController(
+                                    text: snapshot.data['title']),
+                            keyboardType: TextInputType.text,
+                            // initialValue: null,
+                            decoration: InputDecoration(
+                                // hintText: snapshot.data['title'],
+                                ),
+                            validator: (updataTitleValue) {
+                              if (updataTitleValue.isEmpty) {
+                                return 'Please enter title';
+                              }
+                              return null;
+                            },
+                          ),
+                          TextFormField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            controller: _updataBodyTextEditingController =
+                                TextEditingController(
+                                    text: snapshot.data['body']),
+                            // initialValue: null,
+                            decoration: InputDecoration(
+                                // hintText: snapshot.data['body'],
+                                ),
+                            validator: (updataBodyValue) {
+                              if (updataBodyValue.isEmpty) {
+                                return 'Please enter body';
+                              }
+                              return null;
+                            },
+                          ),
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      var data = {
+                                        'title':
+                                            _updataTitleTextEditingController
+                                                .text,
+                                        'body': _updataBodyTextEditingController
+                                            .text
+                                      };
+                                      updatePost(data);
+                                      // Navigator.of(context).push(
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         BottomNavigation(pageNumber: 1),
+                                      //   ),
+                                      // );
+                                      Navigator.of(context).pop(true);
+                                    },
+                                    child: Text('変更'),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                                  child: RaisedButton(
+                                    onPressed: () => showDialog(
+                                        context: context,
+                                        builder: (_) {
+                                          return AlertDialog(
+                                            title: Text('削除しますか？'),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                child: Text('キャンセル'),
+                                                onPressed: () =>
+                                                    Navigator.of(context)
+                                                        .pop(true),
+                                              ),
+                                              FlatButton(
+                                                child: Text('削除する'),
+                                                onPressed: () {
+                                                  deletePost();
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          BottomNavigation(),
+                                                    ),
+                                                  );
+                                                },
+                                              )
+                                            ],
+                                          );
+                                        }),
+
+                                    // {
+                                    //   deletePost();
                                     // Navigator.of(context).push(
                                     //   MaterialPageRoute(
                                     //     builder: (context) =>
                                     //         BottomNavigation(pageNumber: 1),
                                     //   ),
                                     // );
-                                    Navigator.of(context).pop(true);
-                                  },
-                                  child: Text('変更'),
+                                    //   Navigator.of(context).pop(true);
+                                    // },
+                                    child: Text('削除'),
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16.0),
-                                child: RaisedButton(
-                                  onPressed: () => showDialog(
-                                      context: context,
-                                      builder: (_) {
-                                        return AlertDialog(
-                                          title: Text('削除しますか？'),
-                                          actions: <Widget>[
-                                            FlatButton(
-                                              child: Text('キャンセル'),
-                                              onPressed: () =>
-                                                  Navigator.of(context)
-                                                      .pop(true),
-                                            ),
-                                            FlatButton(
-                                              child: Text('削除する'),
-                                              onPressed: () {
-                                                deletePost();
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BottomNavigation(),
-                                                  ),
-                                                );
-                                              },
-                                            )
-                                          ],
-                                        );
-                                      }),
-
-                                  // {
-                                  //   deletePost();
-                                  // Navigator.of(context).push(
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) =>
-                                  //         BottomNavigation(pageNumber: 1),
-                                  //   ),
-                                  // );
-                                  //   Navigator.of(context).pop(true);
-                                  // },
-                                  child: Text('削除'),
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
+                        ],
+                      ),
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Container(
+                    child: Center(
+                      child: Text('errorが発生しました'),
+                    ),
+                  );
+                } else {
+                  return Container(
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                          child: CircularProgressIndicator(),
+                          widthFactor: 20.0,
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.only(top: 16),
+                          child: Text('Awaiting result...'),
                         ),
                       ],
                     ),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Container(
-                  child: Center(
-                    child: Text('errorが発生しました'),
-                  ),
-                );
-              } else {
-                return Container(
-                  child: Column(
-                    children: <Widget>[
-                      Center(
-                        child: CircularProgressIndicator(),
-                        widthFactor: 20.0,
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.only(top: 16),
-                        child: Text('Awaiting result...'),
-                      ),
-                    ],
-                  ),
-                );
-              }
-            }),
+                  );
+                }
+              }),
+        ),
       ),
     );
   }
