@@ -105,6 +105,8 @@ class MakePost extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
                     child: TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
                       controller: _bodyTextController,
                       onChanged: (String body) {
                         body = _bodyTextController.text;

@@ -60,6 +60,7 @@ class Reply extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('返信'),
         flexibleSpace: Container(
@@ -70,62 +71,70 @@ class Reply extends StatelessWidget {
                   colors: <Color>[Colors.lightBlue[300], Colors.cyan[100]])),
         ),
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(16.0, 64.0, 16.0, 0),
-            color: Colors.white.withOpacity(0.7),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                controller: _replyTextController,
-                onChanged: (String reply) {
-                  reply = _replyTextController.text;
-                },
-                decoration: InputDecoration(
-                  labelText: '返信',
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.lightBlue[200],
-                      width: 1.0,
+          Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.fromLTRB(16.0, 64.0, 16.0, 0),
+                color: Colors.white.withOpacity(0.7),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SingleChildScrollView(
+                    child: TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      controller: _replyTextController,
+                      onChanged: (String reply) {
+                        reply = _replyTextController.text;
+                      },
+                      decoration: InputDecoration(
+                        labelText: '返信',
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.lightBlue[200],
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-          Container(
-            height: 40,
-            margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-            child: Builder(builder: (context) {
-              return RaisedButton(
-                color: Colors.lightBlue[200],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
-                  ),
-                ),
-                onPressed: () {
-                  var originalUserId = originalPostUserId;
-                  var documentId = postDocumentId;
-                  currentUserData(_replyTextController.text, documentId,
-                      originalUserId, context);
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => BottomNavigation(),
+              Container(
+                height: 40,
+                margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+                child: Builder(builder: (context) {
+                  return RaisedButton(
+                    color: Colors.lightBlue[200],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      var originalUserId = originalPostUserId;
+                      var documentId = postDocumentId;
+                      currentUserData(_replyTextController.text, documentId,
+                          originalUserId, context);
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => BottomNavigation(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      '投稿',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                          letterSpacing: 9.0),
                     ),
                   );
-                },
-                child: Text(
-                  '投稿',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                      letterSpacing: 9.0),
-                ),
-              );
-            }),
+                }),
+              ),
+            ],
           ),
         ],
       ),
