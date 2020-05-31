@@ -73,6 +73,7 @@ class ReplyerCommunication extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('相談への投稿'),
         flexibleSpace: Container(
@@ -85,63 +86,67 @@ class ReplyerCommunication extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(16.0, 64.0, 16.0, 0),
-            color: Colors.white.withOpacity(0.7),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                controller: _communicationTextController,
-                onChanged: (String communication) {
-                  communication = _communicationTextController.text;
-                },
-                decoration: InputDecoration(
-                  labelText: '返信',
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.lightBlue[200],
-                      width: 1.0,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(16.0, 64.0, 16.0, 0),
+              color: Colors.white.withOpacity(0.7),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  controller: _communicationTextController,
+                  onChanged: (String communication) {
+                    communication = _communicationTextController.text;
+                  },
+                  decoration: InputDecoration(
+                    labelText: '返信',
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.lightBlue[200],
+                        width: 1.0,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Container(
-            height: 40,
-            margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-            child: Builder(builder: (context) {
-              return RaisedButton(
-                color: Colors.lightBlue[200],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
+            Container(
+              height: 40,
+              margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+              child: Builder(builder: (context) {
+                return RaisedButton(
+                  color: Colors.lightBlue[200],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  writeCommunicationData(
-                      _communicationTextController.text, replyDocumentId);
-                  // Navigator.of(context).pushReplacement(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => BottomNavigation(),
-                  //   ),
-                  // );
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  '投稿',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                      letterSpacing: 9.0),
-                ),
-              );
-            }),
-          ),
-        ],
+                  onPressed: () {
+                    writeCommunicationData(
+                        _communicationTextController.text, replyDocumentId);
+                    // Navigator.of(context).pushReplacement(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => BottomNavigation(),
+                    //   ),
+                    // );
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    '投稿',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                        letterSpacing: 9.0),
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }

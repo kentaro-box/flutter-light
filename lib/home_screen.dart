@@ -119,18 +119,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(
                                       0, 16.0, 0, 8.0),
-                                  child: Text(
-                                    post['title'],
-                                    style: TextStyle(fontSize: 16.0),
-                                    textAlign: TextAlign.start,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      post['title'],
+                                      style: TextStyle(fontSize: 16.0),
+                                      textAlign: TextAlign.start,
+                                    ),
                                   ),
                                 ),
                                 Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 8.0, 0, 16),
-                                  child: Text(
-                                    post['body'],
-                                    textAlign: TextAlign.start,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      post['body'],
+                                      overflow: TextOverflow
+                                          .ellipsis, // TODO ... (readmoreみたいな)
+                                      maxLines: 3,
+                                      textAlign: TextAlign.start,
+                                    ),
                                   ),
                                 ),
                               ],
