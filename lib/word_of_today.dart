@@ -29,6 +29,16 @@ class _WordOfTodayState extends State<WordOfToday> {
     return user.uid;
   }
 
+  Future userCategory() async {
+    final uid = await getCurrentUserId();
+
+    final userDoc =
+        await Firestore.instance.collection('users').document(uid).get();
+    final userCategory = userDoc.data['category'];
+
+    return userCategory;
+  }
+
   // changeThankCount(docId, thanksCount) {
   //   _firestore.collection('wordOfToday').document(docId).setData({
   //     'thanksCount': thanksCount,
@@ -49,21 +59,33 @@ class _WordOfTodayState extends State<WordOfToday> {
           ),
           actions: <Widget>[
             // TODO consulterは非表示
-            IconButton(
-                icon: const Icon(
-                  Icons.create,
-                  color: Colors.green,
-                ),
-                tooltip: 'Show Snackbar',
-                onPressed: () async {
-                  final result = await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => PostWordOfToday(),
-                    ),
-                  );
-                  if (result == true) {
-                    TabInherited.of(context).openTab(1);
+            FutureBuilder<Object>(
+                future: userCategory(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   }
+                  print(snapshot.data);
+                  return snapshot.data != 'advisor'
+                      ? Text('')
+                      : IconButton(
+                          icon: const Icon(
+                            Icons.create,
+                            color: Colors.green,
+                          ),
+                          tooltip: 'Show Snackbar',
+                          onPressed: () async {
+                            final result = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PostWordOfToday(),
+                              ),
+                            );
+                            if (result == true) {
+                              TabInherited.of(context).openTab(1);
+                            }
+                          });
                 }),
           ]),
       body: Container(
