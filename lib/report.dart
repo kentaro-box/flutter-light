@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bbs/notice.dart';
+
+import 'block.dart';
 
 class Report extends StatelessWidget {
   String postId;
@@ -23,11 +26,29 @@ class Report extends StatelessWidget {
         children: <Widget>[
           Column(
             children: <Widget>[
-              Container(
-                  padding: EdgeInsets.all(8.0), child: Text('${menu[0]}')),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Notice(),
+                    ),
+                  );
+                },
+                child: Container(
+                    padding: EdgeInsets.all(8.0), child: Text('${menu[0]}')),
+              ),
               Divider(),
-              Container(
-                  padding: EdgeInsets.all(8.0), child: Text('${menu[1]}')),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Block(),
+                    ),
+                  );
+                },
+                child: Container(
+                    padding: EdgeInsets.all(8.0), child: Text('${menu[1]}')),
+              ),
               Divider(),
             ],
           ),
