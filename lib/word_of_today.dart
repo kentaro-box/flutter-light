@@ -182,7 +182,7 @@ class _WordOfTodayState extends State<WordOfToday> {
                                         Widget result;
                                         if (count == 0) {
                                           result = Text(
-                                            "感謝",
+                                            "ありがたい",
                                             style: TextStyle(color: color),
                                           );
                                         } else
