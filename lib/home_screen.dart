@@ -36,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return userCategory['category'];
   }
 
+  checkBlock() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

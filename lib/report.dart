@@ -30,7 +30,7 @@ class Report extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => Notice(),
+                      builder: (context) => Notice(postId: postId),
                     ),
                   );
                 },
@@ -42,7 +42,7 @@ class Report extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => Block(),
+                      builder: (context) => Block(postId: postId),
                     ),
                   );
                 },

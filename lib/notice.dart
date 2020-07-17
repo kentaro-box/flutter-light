@@ -1,8 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'bottom_navigation.dart';
 
 class Notice extends StatelessWidget {
+  String postId;
+  Notice({this.postId});
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  Future<String> getCurrentUserId() async {
+    var user = await FirebaseAuth.instance.currentUser();
+    return user.uid;
+  }
+
+  addReport() async {
+    var uid = await getCurrentUserId();
+    var collectionRef = Firestore.instance.collection('report');
+
+    collectionRef.document().setData({
+      'reportedPostId': postId,
+      'uid': uid,
+    }, merge: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +50,7 @@ class Notice extends StatelessWidget {
                 color: Colors.orange,
                 textColor: Colors.white,
                 onPressed: () {
+                  addReport();
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => BottomNavigation()),
                   );
