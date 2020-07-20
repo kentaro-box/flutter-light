@@ -59,6 +59,35 @@ class _MenuState extends State<Menu> {
                   (Route<dynamic> route) => false);
             },
           ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 8.0),
+            child: Column(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("製作者へ連絡"),
+                ),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('chickenshopgogogoアットマークgmail.com')),
+              ],
+            ),
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 8.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: Text('<このアプリについて>'),
+                ),
+                Text(
+                    '昔から現代に至るまで、生きていくということはなかなか大変なことだと思っています。日々、いろいろな思念に付き纏われ、悲観したり、自分を卑下したりと余分に苦労してしまっている人々が多くいるのではないかと思いました。そこで、お坊さんたちが長い年月をかけ蓄積してきた考えなどを現代に当てはめてご教授下されば、救われる方もおられるのではないかと考えこのアプリを制作いたしました。お坊さん方には、宗派に囚われず人々の苦しみを軽減するようなお言葉をいただければありがたい限りでございます。'),
+              ],
+            ),
+          ),
         ],
       ),
     );
