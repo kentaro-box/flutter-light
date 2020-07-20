@@ -74,198 +74,231 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ]),
-      body: Container(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: _connectFirestore.firestoreGetPosts,
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text('error: ${snapshot.error}');
-            } else if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              return ListView(
-                children: snapshot.data.documents.map((post) {
-                  return GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            PostDetail(postId: post.documentID),
-                        // builder: (context) {
-                        //   print(post['postId']);
-                        //   // PostDetail();
-                        // },
-                      ),
-                    ), // 各投稿の全文及、返信を読める。
-                    child: Card(
-                      child: Container(
-                        padding: EdgeInsets.all(24.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  '${post['user']['userName']} さん',
-                                  style: TextStyle(fontSize: 15.0),
-                                ),
-                                Text(
-                                  '${post['createdAt'].toDate().toString().substring(0, 19)}',
-                                  style: TextStyle(fontSize: 9.0),
-                                )
-                              ],
+      body: FutureBuilder<Object>(
+          future: getCurrentUserId(),
+          builder: (context, futureSnapshot) {
+            if (futureSnapshot.connectionState != ConnectionState.done) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            // print(futureSnapshot);
+            final uid = futureSnapshot.data;
+            return Container(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _connectFirestore.firestoreGetPosts,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('error: ${snapshot.error}');
+                  } else if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    return ListView(
+                      children: snapshot.data.documents.map((post) {
+                        // print(post.data['block']);
+
+                        if (post.data['block'].toString() == '[${uid}]') {
+                          return Card(
+                            child: Center(
+                              child: Text('非表示にしたコンテンツです'),
                             ),
-                            Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      0, 16.0, 0, 8.0),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      post['title'],
-                                      style: TextStyle(fontSize: 16.0),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 8.0, 0, 16),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      post['body'],
-                                      overflow: TextOverflow
-                                          .ellipsis, // TODO ... (readmoreみたいな)
-                                      maxLines: 3,
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          );
+                        }
+                        return GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  PostDetail(postId: post.documentID),
+                              // builder: (context) {
+                              //   print(post['postId']);
+                              //   // PostDetail();
+                              // },
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    FutureBuilder(
-                                        future: getCategory(),
+                          ), // 各投稿の全文及、返信を読める。
+                          child: Card(
+                            child: Container(
+                              padding: EdgeInsets.all(24.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        '${post['user']['userName']} さん',
+                                        style: TextStyle(fontSize: 15.0),
+                                      ),
+                                      Text(
+                                        '${post['createdAt'].toDate().toString().substring(0, 19)}',
+                                        style: TextStyle(fontSize: 9.0),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 16.0, 0, 8.0),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            post['title'],
+                                            style: TextStyle(fontSize: 16.0),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 8.0, 0, 16),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            post['body'],
+                                            overflow: TextOverflow
+                                                .ellipsis, // TODO ... (readmoreみたいな)
+                                            maxLines: 3,
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          FutureBuilder(
+                                              future: getCategory(),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return Center(
+                                                      child:
+                                                          CircularProgressIndicator());
+                                                } else {
+                                                  return Container(
+                                                    padding: EdgeInsets.only(
+                                                        right: 16.0),
+                                                    child: _isCheckPost
+                                                            .isUserCategory(
+                                                                snapshot.data)
+                                                        ? GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .push(
+                                                                MaterialPageRoute(
+                                                                  builder: (context) => Reply(
+                                                                      postDocumentId:
+                                                                          post
+                                                                              .documentID,
+                                                                      originalPostUserId:
+                                                                          '${post['user']['userId']}'),
+                                                                ),
+                                                              );
+                                                            },
+                                                            child: Icon(
+                                                              Icons
+                                                                  .chat_bubble_outline,
+                                                              size: 12.0,
+                                                            ),
+                                                          )
+                                                        : Text(''),
+                                                  );
+                                                }
+                                              }),
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                '返信数',
+                                                style:
+                                                    TextStyle(fontSize: 10.0),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        3.0, 4.0, 0, 0),
+                                                child: Text(
+                                                    '${post['replyCount']}',
+                                                    style: TextStyle(
+                                                        fontSize: 10.0)),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      FutureBuilder(
+                                        future: getCurrentUserId(),
                                         builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
+                                          if (snapshot.hasData) {
+                                            final currentUserId = snapshot.data;
+                                            return _isCheckPost.isMyPost(
+                                                    '${post['user']['userId']}',
+                                                    currentUserId)
+                                                ? GestureDetector(
+                                                    child: Icon(
+                                                      Icons.dehaze,
+                                                      size: 18.0,
+                                                    ),
+                                                    onTap: () async {
+                                                      var result =
+                                                          await Navigator.of(
+                                                                  context)
+                                                              .push(
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              EditAndDelete(
+                                                                  postId: post
+                                                                      .documentID),
+                                                        ),
+                                                      );
+                                                      if (result == true) {
+                                                        TabInherited.of(context)
+                                                            .openTab(0);
+                                                      }
+                                                    })
+                                                : GestureDetector(
+                                                    child: Icon(
+                                                      Icons.more_vert,
+                                                      size: 18.0,
+                                                    ),
+                                                    onTap: () =>
+                                                        Navigator.of(context)
+                                                            .push(
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Report(
+                                                                postId: post
+                                                                    .documentID),
+                                                      ),
+                                                    ),
+                                                  );
+                                          } else {
                                             return Center(
                                                 child:
                                                     CircularProgressIndicator());
-                                          } else {
-                                            return Container(
-                                              padding:
-                                                  EdgeInsets.only(right: 16.0),
-                                              child: _isCheckPost
-                                                      .isUserCategory(
-                                                          snapshot.data)
-                                                  ? GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.of(context)
-                                                            .push(
-                                                          MaterialPageRoute(
-                                                            builder: (context) => Reply(
-                                                                postDocumentId: post
-                                                                    .documentID,
-                                                                originalPostUserId:
-                                                                    '${post['user']['userId']}'),
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: Icon(
-                                                        Icons
-                                                            .chat_bubble_outline,
-                                                        size: 12.0,
-                                                      ),
-                                                    )
-                                                  : Text(''),
-                                            );
                                           }
-                                        }),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          '返信数',
-                                          style: TextStyle(fontSize: 10.0),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              3.0, 4.0, 0, 0),
-                                          child: Text('${post['replyCount']}',
-                                              style: TextStyle(fontSize: 10.0)),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                FutureBuilder(
-                                  future: getCurrentUserId(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      final currentUserId = snapshot.data;
-                                      return _isCheckPost.isMyPost(
-                                              '${post['user']['userId']}',
-                                              currentUserId)
-                                          ? GestureDetector(
-                                              child: Icon(
-                                                Icons.dehaze,
-                                                size: 18.0,
-                                              ),
-                                              onTap: () async {
-                                                var result =
-                                                    await Navigator.of(context)
-                                                        .push(
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EditAndDelete(
-                                                            postId: post
-                                                                .documentID),
-                                                  ),
-                                                );
-                                                if (result == true) {
-                                                  TabInherited.of(context)
-                                                      .openTab(0);
-                                                }
-                                              })
-                                          : GestureDetector(
-                                              child: Icon(
-                                                Icons.more_vert,
-                                                size: 18.0,
-                                              ),
-                                              onTap: () =>
-                                                  Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) => Report(
-                                                      postId: post.documentID),
-                                                ),
-                                              ),
-                                            );
-                                    } else {
-                                      return Center(
-                                          child: CircularProgressIndicator());
-                                    }
-                                  },
-                                )
-                              ],
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              );
-            }
-          },
-        ),
-      ),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }
+                },
+              ),
+            );
+          }),
     );
   }
 }

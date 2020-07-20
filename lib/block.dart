@@ -15,7 +15,7 @@ class Block extends StatelessWidget {
     return user.uid;
   }
 
-  addPostBlockUid() async {
+  void addPostBlockUid() async {
     var uid = await getCurrentUserId();
     var documentRef = Firestore.instance.collection('posts').document(postId);
 
