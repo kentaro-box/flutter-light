@@ -60,6 +60,47 @@ class _MenuState extends State<Menu> {
             },
           ),
           Divider(),
+          ListTile(
+            title: Text('アカウントを削除する'),
+            // onTap: signOutFacebook,
+            onTap: () async {
+              var result = await showDialog<int>(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('確認'),
+                    content: Text('確認のダイアログです。'),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text('Cancel'),
+                        onPressed: () => Navigator.of(context).pop(0),
+                      ),
+                      FlatButton(
+                        child: Text('OK'),
+                        onPressed: () async {
+                          final user =
+                              await FirebaseAuth.instance.currentUser();
+                          user.delete();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()),
+                              (Route<dynamic> route) => false);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              // final user = await FirebaseAuth.instance.currentUser();
+              // user.delete();
+              // Navigator.of(context).pushAndRemoveUntil(
+              //     MaterialPageRoute(builder: (context) => LoginScreen()),
+              //     (Route<dynamic> route) => false);
+            },
+          ),
+          Divider(),
           Padding(
             padding: const EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 8.0),
             child: Column(

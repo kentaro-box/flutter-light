@@ -96,10 +96,10 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               width: 236,
               child: RaisedButton(
-                color: Colors.lightBlue[100],
+                color: Colors.lightBlue[300],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
+                    Radius.circular(4.0),
                   ),
                 ),
                 onPressed: () async {
@@ -110,37 +110,49 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   );
                 },
-                child: Text('Consulter Login'),
+                child: Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Text(
+                    '相談者 Login',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ),
               ),
             ),
-            SizedBox(
-              width: 236,
-              child: Container(
-                child: isLogged
-                    ? Center(
-                        child: CircularProgressIndicator(
-                        strokeWidth: 30.0,
-                      ))
-                    : FacebookSignInButton(
-                        text: 'Advisor Login',
-                        onPressed: _loggedIn,
-                      ),
+            Container(
+              padding: EdgeInsets.only(top: 18.0),
+              child: SizedBox(
+                width: 236,
+                child: Container(
+                  child: isLogged
+                      ? Center(
+                          child: CircularProgressIndicator(
+                          strokeWidth: 30.0,
+                        ))
+                      : FacebookSignInButton(
+                          text: '  お坊さん Login',
+                          onPressed: _loggedIn,
+                        ),
+                ),
               ),
             ),
 
-            SizedBox(
-              width: 236,
-              child: RaisedButton(
-                color: Colors.lightBlueAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
-                  ),
-                ),
-                onPressed: () => logOut(),
-                child: Text('Login'),
-              ),
-            ),
+            // SizedBox(
+            //   width: 236,
+            //   child: RaisedButton(
+            //     color: Colors.lightBlueAccent,
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.all(
+            //         Radius.circular(8.0),
+            //       ),
+            //     ),
+            //     onPressed: () => logOut(),
+            //     child: Text('Login'),
+            //   ),
+            // ),
             // Container(
             //   child: FacebookSignInButton(
             //     onPressed: _loggedIn,

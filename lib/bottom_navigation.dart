@@ -113,6 +113,7 @@ class _BottomSplashScreenState extends State<BottomSplashScreen> {
 
     final userDoc =
         await Firestore.instance.collection('users').document(user.uid).get();
+
     final userName = await userDoc.data['userName'] == null
         ? null
         : userDoc.data['userName'];

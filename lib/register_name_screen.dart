@@ -78,6 +78,9 @@ class _RegisterNameScreenState extends State<RegisterNameScreen> {
                     final uid = await getCurrentUserId();
                     final getUserDoc =
                         Firestore.instance.collection('users').document(uid);
+                    if (_textEditingController.text == '') {
+                      _textEditingController.text = '匿名';
+                    }
                     getUserDoc.setData(
                         {'userName': _textEditingController.text},
                         merge: true);
@@ -88,6 +91,18 @@ class _RegisterNameScreenState extends State<RegisterNameScreen> {
                     );
                   },
                   child: Text('登録'),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 32.0),
+                child: Column(
+                  children: <Widget>[
+                    Text("ご注意"),
+                    Container(
+                        padding: EdgeInsets.only(top: 12.0),
+                        child:
+                            Text('ログアウトするとご自身のデータの削除や編集ができなくなってしまうのでご注意ください！')),
+                  ],
                 ),
               ),
             ],
