@@ -101,7 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (post.data['block'].toString() == '[${uid}]') {
                           return Card(
                             child: Center(
-                              child: Text('非表示にしたコンテンツです'),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 9.0, 0, 9.0),
+                                child: Text('非表示にしたコンテンツです'),
+                              ),
                             ),
                           );
                         }
@@ -110,10 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             MaterialPageRoute(
                               builder: (context) =>
                                   PostDetail(postId: post.documentID),
-                              // builder: (context) {
-                              //   print(post['postId']);
-                              //   // PostDetail();
-                              // },
                             ),
                           ), // 各投稿の全文及、返信を読める。
                           child: Card(

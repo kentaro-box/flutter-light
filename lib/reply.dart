@@ -116,6 +116,8 @@ class Reply extends StatelessWidget {
                       onPressed: () {
                         var originalUserId = originalPostUserId;
                         var documentId = postDocumentId;
+                        print("originalUserId:" "${originalUserId}");
+                        print("documentId:" "${documentId}");
                         currentUserData(_replyTextController.text, documentId,
                             originalUserId, context);
                         Navigator.of(context).pushReplacement(
