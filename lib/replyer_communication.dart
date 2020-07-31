@@ -37,11 +37,11 @@ class ReplyerCommunication extends StatelessWidget {
     return userDetails;
   }
 
-  // currentUserName() {
-  //   final user =
-  //       Firestore.instance.collection('users').document(currentUserId).get();
-  //   return user['userName'];
-  // }
+  currentUserName() {
+    final user =
+        Firestore.instance.collection('users').document(currentUserId).get();
+    return user;
+  }
 
   writeCommunicationData(data, documentId) async {
     final communicationCollectionRef = Firestore.instance
@@ -53,13 +53,13 @@ class ReplyerCommunication extends StatelessWidget {
         .document();
 
     final userDetail = await getPostUserDetails();
-
+    final user = await currentUserName();
     var communicationData = {
       'originalPostUserId': originalPostUserId,
       'originalPostId': originalPostId,
       'replyUserId': replyUserId,
       'replyPostId': replyPostId,
-      'replyUserName': userDetail['userName'],
+      'replyUserName': user.data['userName'],
       'replyDocumentId': documentId,
       'createdAt': new DateTime.now(),
       'communicatePostUser': userDetail['userId'],

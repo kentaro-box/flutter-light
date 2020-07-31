@@ -34,7 +34,7 @@ class ReplyDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('返信詳細'),
+          title: Text('やり取り詳細'),
           flexibleSpace: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(

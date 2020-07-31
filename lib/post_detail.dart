@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bbs/home_screen.dart';
 
+import 'reply.dart';
 import 'reply_detail.dart';
 import 'replyer_communication.dart';
 
@@ -71,14 +72,54 @@ class PostDetail extends StatelessWidget {
                       style: TextStyle(fontSize: 18.0),
                     ),
                     Divider(),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0),
-                      child: Text('以下、ご相談に関する返信'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: Text('以下、ご相談に関する返信'),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 5.0, 12.0),
+                          child: SizedBox(
+                            width: 100,
+                            height: 30,
+                            child: RaisedButton(
+                              color: Colors.lightBlue[200],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(4.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => Reply(
+                                        postDocumentId: postId,
+                                        originalPostUserId:
+                                            snapshot.data['user']['userId']),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Text(
+                                  '新規返信',
+                                  style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     FutureBuilder<QuerySnapshot>(
                         future: Firestore.instance
                             .collection('posts/$postId/reply')
-                            .orderBy('createdAt')
+                            .orderBy('createdAt', descending: true)
                             .getDocuments(),
                         builder: (context, replySnapshot) {
                           if (replySnapshot.hasData) {
@@ -186,10 +227,8 @@ class PostDetail extends StatelessWidget {
                                                                       Widget>[
                                                                     isPostUserCheck(
                                                                             currentUserId,
-                                                                            doc.data[
-                                                                                'originalPostUserId'],
-                                                                            dsnapshot.data[
-                                                                                'replyUserId'])
+                                                                            doc.data['originalPostUserId'],
+                                                                            dsnapshot.data['replyUserId'])
                                                                         ? GestureDetector(
                                                                             child:
                                                                                 Icon(
@@ -211,8 +250,17 @@ class PostDetail extends StatelessWidget {
                                                                               ),
                                                                             ),
                                                                           )
-                                                                        : Text(
-                                                                            ''),
+                                                                        : Column(
+                                                                            children: <Widget>[
+                                                                              Text(
+                                                                                'やりとり続ける場合はタップしてください',
+                                                                                style: TextStyle(fontSize: 9.0),
+                                                                              ),
+                                                                              // Text(currentUser),
+                                                                              // Text(originalPostUser),
+                                                                              // Text(replyPostUser),
+                                                                            ],
+                                                                          ),
                                                                     // Container(
                                                                     //   padding: EdgeInsets.only(
                                                                     //       left:
