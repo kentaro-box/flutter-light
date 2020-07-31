@@ -213,46 +213,46 @@ class PostDetail extends StatelessWidget {
                                                                           )
                                                                         : Text(
                                                                             ''),
-                                                                    Container(
-                                                                      padding: EdgeInsets.only(
-                                                                          left:
-                                                                              9.0),
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.start,
-                                                                        children: <
-                                                                            Widget>[
-                                                                          Text(
-                                                                            'いいね',
-                                                                            style:
-                                                                                TextStyle(fontSize: 10.0),
-                                                                          ),
-                                                                          Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.only(left: 3.0),
-                                                                            child:
-                                                                                Text(
-                                                                              '21',
-                                                                              style: TextStyle(fontSize: 10.0),
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
+                                                                    // Container(
+                                                                    //   padding: EdgeInsets.only(
+                                                                    //       left:
+                                                                    //           9.0),
+                                                                    //   child:
+                                                                    //       Row(
+                                                                    //     mainAxisAlignment:
+                                                                    //         MainAxisAlignment.start,
+                                                                    //     children: <
+                                                                    //         Widget>[
+                                                                    //       Text(
+                                                                    //         'いいね',
+                                                                    //         style:
+                                                                    //             TextStyle(fontSize: 10.0),
+                                                                    //       ),
+                                                                    //       Padding(
+                                                                    //         padding:
+                                                                    //             const EdgeInsets.only(left: 3.0),
+                                                                    //         child:
+                                                                    //             Text(
+                                                                    //           '21',
+                                                                    //           style: TextStyle(fontSize: 10.0),
+                                                                    //         ),
+                                                                    //       ),
+                                                                    //     ],
+                                                                    //   ),
+                                                                    // ),
                                                                   ],
                                                                 );
                                                               }
                                                             },
                                                           ),
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .bottomRight,
-                                                            child: Icon(
-                                                              Icons.dehaze,
-                                                              size: 18.0,
-                                                            ),
-                                                          ),
+                                                          // Align(
+                                                          //   alignment: Alignment
+                                                          //       .bottomRight,
+                                                          //   child: Icon(
+                                                          //     Icons.dehaze,
+                                                          //     size: 18.0,
+                                                          //   ),
+                                                          // ),
                                                         ],
                                                       );
                                                     }
